@@ -73,5 +73,4 @@ The program will:
 ## Progress Report
 
 The first progress report for this project can be found in:
-
-reports/progress_report_1.pdf
+progress_report_1.pdf
