@@ -68,3 +68,10 @@ The program will:
 2. Solve it using the baseline backtracking algorithm
 3. Solve it again using the MRV heuristic
 4. Print the solved puzzle and performance metrics (recursive calls, backtracks, runtime)
+
+
+## Progress Report
+
+The first progress report for this project can be found in:
+
+reports/progress_report_1.pdf
