@@ -3,52 +3,58 @@ from sudoku_board import SudokuBoard
 from solver import SudokuSolver
 
 
-def run_solver(name: str, puzzle: str, use_mrv: bool = False) -> None:
+def load_puzzles(filename):
+    with open(filename, "r") as f:
+        return [line.strip() for line in f if line.strip()]
+
+
+def run_algorithm(puzzle, method):
     board = SudokuBoard.from_string(puzzle)
     solver = SudokuSolver()
 
-    print(f"\n=== {name} ===")
-    print("Original puzzle:\n")
-    print(board)
-    print("\nSolving...\n")
+    start = time.perf_counter()
 
-    start_time = time.perf_counter()
+    if method == "bt":
+        solver.solve_backtracking(board)
+    elif method == "mrv":
+        solver.solve_backtracking_mrv(board)
+    elif method == "fc":
+        solver.solve_forward_checking(board)
+    elif method == "mrv_fc":
+        solver.solve_mrv_forward_checking(board)
 
-    if use_mrv:
-        solved = solver.solve_backtracking_mrv(board)
-    else:
-        solved = solver.solve_backtracking(board)
+    end = time.perf_counter()
 
-    end_time = time.perf_counter()
-
-    if solved:
-        print("Solved puzzle:\n")
-        print(board)
-    else:
-        print("No solution found.")
-
-    print("\nMetrics:")
-    print(f"Recursive calls: {solver.recursive_calls}")
-    print(f"Backtracks: {solver.backtracks}")
-    print(f"Elapsed time: {end_time - start_time:.6f} seconds")
-
-
-def run_example() -> None:
-    puzzle = (
-        "530070000"
-        "600195000"
-        "098000060"
-        "800060003"
-        "400803001"
-        "700020006"
-        "060000280"
-        "000419005"
-        "000080079"
+    return (
+        solver.recursive_calls,
+        solver.backtracks,
+        end - start
     )
 
-    run_solver("Baseline Backtracking", puzzle, use_mrv=False)
-    run_solver("Backtracking + MRV", puzzle, use_mrv=True)
+def run_experiments():
+    puzzles = load_puzzles("puzzles.txt")
+    methods = ["bt", "mrv", "fc", "mrv_fc"]
+
+    results = {m: {"calls": [], "backtracks": [], "time": []} for m in methods}
+
+    for puzzle in puzzles:
+        for m in methods:
+            calls, backs, t = run_algorithm(puzzle, m)
+            results[m]["calls"].append(calls)
+            results[m]["backtracks"].append(backs)
+            results[m]["time"].append(t)
+
+    print("\n=== RESULTS ===\n")
+    for m in methods:
+        avg_calls = sum(results[m]["calls"]) / len(puzzles)
+        avg_back = sum(results[m]["backtracks"]) / len(puzzles)
+        avg_time = sum(results[m]["time"]) / len(puzzles)
+
+        print(f"{m}:")
+        print(f"  Avg Calls: {avg_calls:.2f}")
+        print(f"  Avg Backtracks: {avg_back:.2f}")
+        print(f"  Avg Time: {avg_time:.6f}\n")
 
 
 if __name__ == "__main__":
-    run_example()
+    run_experiments()
