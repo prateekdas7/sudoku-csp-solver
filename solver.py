@@ -69,7 +69,7 @@ class SudokuSolver:
         domains: Domains,
     ) -> Optional[Domains]:
         """
-        Apply forward checking after assigning `value` to (row, col).
+        Apply forward checking after assigning 'value' to (row, col).
 
         Returns updated domains if successful.
         Returns None if any neighbor domain becomes empty.
