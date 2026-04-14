@@ -49,7 +49,8 @@ sudoku_solver/<br>
 ├── README.md <br>
 └── reports/<br>
 &emsp;&emsp;&emsp;├── first_progress_report.pdf<br>
-&emsp;&emsp;&emsp;└── final_progress_report.pdf<br>
+&emsp;&emsp;&emsp;├── final_progress_report.pdf<br>
+&emsp;&emsp;&emsp;└── final_report.pdf<br>
 
 
 ---
@@ -66,3 +67,8 @@ The program will:
  - Load multiple Sudoku puzzles from puzzles.txt
  - Run all solving strategies
  - Print average performance metrics for each method
+
+---
+## References
+
+This project was completed using Python 3 with only the standard library. No external packages were used. See the final report for a full list of academic references.
